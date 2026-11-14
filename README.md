@@ -7,3 +7,5 @@ Website: https://eisatopon.github.io/national-olympiads-bank/
 This repository contains only the files the website loads. **All rights reserved** — see `LICENSE`. Personal study and classroom use of the website are welcome; copying or redistributing the data or the application requires written permission. Problem statements belong to their competition organisers.
 
 © Sokratis Romanidis · eisatopon.gr
+
+**Repository navigation** · [Website files](index.html) · [Undergraduate competitions](undergraduate/) · [Upstream rights and license](LICENSE)
