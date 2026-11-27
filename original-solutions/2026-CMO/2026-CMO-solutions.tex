@@ -1,0 +1,370 @@
+\documentclass[UTF8,11pt,a4paper,fontset=fandol]{ctexart}
+\usepackage[a4paper,margin=23mm,headheight=16pt]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,xcolor,booktabs,fancyhdr,hyperref,draftwatermark}
+\definecolor{ink}{HTML}{173E48}
+\definecolor{accent}{HTML}{236B72}
+\hypersetup{colorlinks=true,linkcolor=ink,urlcolor=accent}
+\SetWatermarkText{三千弱水杂谈}
+\SetWatermarkScale{0.65}
+\SetWatermarkLightness{0.94}
+\SetWatermarkAngle{35}
+\ctexset{section={format=\Large\bfseries\color{ink},name={第,题},number=\arabic{section}},subsection={format=\large\bfseries\color{accent}}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{ink}2026 中国数学奥林匹克}
+\fancyhead[R]{\small\color{ink}三千弱水杂谈}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{3pt}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\N}{\mathbb N_0}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\ans}[1]{\par\noindent\textcolor{accent}{\textbf{结论：}}#1\par}
+\begin{document}
+\begin{center}
+{\small\color{accent} 数学竞赛专题 \quad 2026}\\[8pt]
+{\LARGE\bfseries\color{ink} 第42届中国数学奥林匹克}\\[5pt]
+{\Large 六题详解与一般化}\\[10pt]
+{\large 三千弱水杂谈}\\[6pt]
+{\small 依据读者提供的两日试题图独立整理，非官方参考答案。}
+\end{center}
+\begin{center}
+\begin{tabular}{cl}
+\toprule
+题号&核心方法\\\midrule
+1&倍增分块、二次方程与 Pell 型方程\\
+2&有限阿贝尔群指数、约数函数\\
+3&高斯整数、格陪集与覆盖半径\\
+4&根轴、斜坐标与圆方程\\
+5&加权格点、离散单纯形与极值交换\\
+6&定长子集交换图、方差与间隙\\\bottomrule
+\end{tabular}
+\end{center}
+
+\section{递推数列与最优常数}
+\subsection*{题意}
+正整数数列满足
+\[
+a_{n+1}=\begin{cases}a_n-1,&a_n>1,\\n,&a_n=1.\end{cases}
+\]
+设整数 $m,t\ge2$ 且 $a_1=m=t^{-1}\sum_{j=1}^t a_j$。
+证明 $t\ge5m/2$，并求使 $t\le Cm$ 恒成立的最小实数 $C$。
+\ans{$\displaystyle C=7-\sqrt7$；下界 $5m/2$ 可取到，上界常数是上确界而非最大值。}
+\subsection*{分块结构}
+每当数列下降至 $1$，下一项等于当前下标，因此各下降块依次为
+\[
+(m,\ldots,1),\ (m,\ldots,1),\
+(2m,\ldots,1),\ (4m,\ldots,1),\ldots .
+\]
+这是归纳成立的：第二块结束下标为 $2m$，之后若某块从值 $L$ 开始且前面恰有 $L$ 项，则它有 $L$ 项，结束下标为 $2L$，下一块从 $2L$ 开始。
+置 $D(t)=\sum_{j=1}^t(a_j-m)$，条件等价于 $D(t)=0$。
+前 $2m$ 项除首项和第二块首项外均小于 $m$，故 $2\le t\le2m$ 时 $D(t)<0$，且 $D(2m)=-m(m-1)$。
+若 $t=2m+r$，$0\le r\le2m$，则
+\[
+D(t)=-m(m-1)+\frac{r(2m-r+1)}2. \tag{1}
+\]
+若 $t=4m+s$，$0\le s\le4m$，则
+\[
+D(t)=-m(m-2)+\frac{s(6m-s+1)}2. \tag{2}
+\]
+特别地 $D(8m)=3m^2+4m>0$。以后每块长度 $L\ge8m$，其前 $q$ 项的偏差和为
+$q(L-m-(q-1)/2)>0$（$1\le q\le L$），故以后不可能再出现零点。
+\subsection*{第一问}
+若 $r<m/2$，由于函数 $r(2m-r+1)$ 在 $[0,m/2]$ 严格递增，
+\[
+r(2m-r+1)<\frac m2\left(\frac{3m}2+1\right)
+\le2m(m-1),
+\]
+末个不等式等价于 $5m(m-2)/4\ge0$。由 (1) 知不能有零点。因此第三块内的解满足 $t\ge5m/2$；第四块内更显然。$m=2,t=5$ 时前五项为 $2,1,2,1,4$，平均值恰为 $2$，故下界最优。
+\subsection*{第二问}
+第三块内 $t\le4m< (7-\sqrt7)m$。第四块内若 $s>0$ 且 (2) 为零，必有 $s<m$：函数 $s(6m-s+1)-2m(m-2)$ 是凹函数，在 $s=m,4m$ 均严格为正，故在 $[m,4m]$ 为正。
+令 $u=s/m\in(0,1)$，由 (2) 得
+\[
+u(6-u)=2-\frac{4+u}{m}<2.
+\]
+函数 $u(6-u)$ 在 $[0,1]$ 严格递增，且 $(3-\sqrt7)(3+\sqrt7)=2$，故 $u<3-\sqrt7$。所有解均满足 $t<(7-\sqrt7)m$。
+为证明常数不可减小，构造无穷多整数解。方程 (2) 等价于
+\[
+x^2-7y^2=-6,\qquad y=2m+1,\quad x=6m+1-2s.
+\]
+从 $(x_0,y_0)=(1,1)$ 出发，定义
+\[
+x_{k+1}=8x_k+21y_k,\qquad y_{k+1}=3x_k+8y_k.
+\]
+此变换保持 $x^2-7y^2$ 不变；两坐标始终为正奇数且严格增长。
+对 $k\ge1$，$y_k\ge11$，令
+\[
+m_k=\frac{y_k-1}{2},\qquad s_k=\frac{3y_k-2-x_k}{2}.
+\]
+二者为整数。由 $x_k<\sqrt7\,y_k$ 及 $(3-\sqrt7)11>2$ 知 $s_k>0$；由 $x_k>2y_k$（因 $3y_k^2>6$）知 $s_k<m_k$。
+逆代入 (2) 得 $t_k=4m_k+s_k$ 确为所求解。
+又 $m_k\to\infty$，且
+\[
+\frac{s_k}{m_k}
+=\frac{3y_k-2-x_k}{y_k-1}\longrightarrow3-\sqrt7,
+\]
+所以 $t_k/m_k\to7-\sqrt7$，最优性得证。
+\subsection*{背景与一般形式}
+这里的关键是递推的倍增分块与部分和零点。第三块的整数零点由判别式 $-4m^2+12m+1$ 决定：$m=2$ 时 $t=5,8$，$m=3$ 时 $t=9,10$，$m\ge4$ 时没有解。第四块的正整数零点恰对应上述广义 Pell 方程中 $y=2m+1$、$x=6m+1-2s$、$0<s<m$ 的解。对更一般的下降块，只要已知各块长度和累计偏差，平均值条件仍化为块内二次方程；整数可解性则转化为判别式为平方数的问题。
+
+\section{阶乘加一与高阶单位}
+\subsection*{题意}
+证明存在正整数 $N$，使每个整数 $n\ge N$ 均存在与 $n!+1$ 互质的整数 $a$，满足 $a^j-1$ 对 $1\le j\le n^2$ 均不是 $n!+1$ 的倍数。
+\subsection*{预备引理}
+有限阿贝尔群的指数 $L$ 是所有元素阶的最小公倍数，且存在元素的阶恰为 $L$。事实上，对每个素数幂 $\ell^e\parallel L$，可选元素 $g$ 的阶含有该完整素数幂；将 $g$ 提至其阶除以 $\ell^e$ 的幂，得到阶为 $\ell^e$ 的元素。交换群中互素阶元素之积的阶等于各阶之积：若 $(uv)^k=1$，则 $u^k=v^{-k}$ 同属于两个循环子群，而其交只有单位元，故两个阶均整除 $k$。归纳即得结论。
+再证约数函数估计：存在绝对常数 $K$ 使
+\[
+\tau(L)\le K L^{1/3}\qquad(L\ge1).
+\]
+写 $L=\prod_p p^{e_p}$。对于 $p\ge 11$，$e+1\le2^e\le p^{e/3}$；对于 $p=2,3,5,7$，数列 $(e+1)p^{-e/3}$ 有有限上界。乘起各素因子对应的不等式即得。
+\subsection*{严格证明}
+令 $M=n!+1$，$L$ 为 $(\Z/M\Z)^\times$ 的指数。只需证明充分大时 $L>n^2$。
+设 $n\ge2$，将 $M$ 分解为 $\prod_{p\mid M}p^{e_p}$。每个素因子 $p>n$，特别地 $p$ 为奇素数。
+中国剩余定理给出从单位群到每个模 $p^{e_p}$ 单位群的满射，故后者指数整除 $L$。
+首先 $p-1\mid L$：模 $p$ 单位群的指数整除 $p-1$（Lagrange 定理），而所有 $p-1$ 个非零剩余类都是对应指数次多项式 $X^d-1$ 的根，故 $d\ge p-1$，从而 $d=p-1$。
+其次 $p^{e_p-1}\mid L$。当 $e_p>1$ 时，元素 $1+p$ 模 $p^{e_p}$ 的阶为 $p^{e_p-1}$：二项式展开归纳得到
+\[
+v_p((1+p)^{p^j}-1)=j+1\qquad(j\ge0).
+\]
+具体地，若 $z=1+p^r u$、$p\nmid u$、$r\ge1$，则 $z^p-1$ 的首项为 $p^{r+1}u$，其余项均被 $p^{r+2}$ 整除（$p$ 奇），于是赋值恰增加 $1$。这既说明 $p^{e_p-1}$ 次幂为 $1$，又说明前一 $p$ 幂不是 $1$。$e_p=1$ 时结论平凡。
+因 $p-1$ 与 $p^{e_p-1}$ 互素，得到
+\[
+p^{e_p-1}(p-1)\mid L,\qquad p^{e_p}\le2L.
+\]
+不同的 $p$ 给出不同约数 $p-1$，所以素因子个数不超过 $\tau(L)$。
+若 $L\le n^2$，则
+\[
+\log(n!+1)\le\tau(L)\log(2L)
+\le K n^{2/3}\log(2n^2).
+\]
+另一方面，$n!$ 的最后至少 $\lfloor n/2\rfloor$ 个因子不小于 $n/2$，因此
+\[
+\log(n!+1)\ge\lfloor n/2\rfloor\log(n/2).
+\]
+上下界之比随 $n\to\infty$ 矛盾，因为右侧的阶为 $n\log n$，而假设给出的上界为 $O(n^{2/3}\log n)$。故存在统一的 $N$，使每个 $n\ge N$ 均有 $L>n^2$。
+取阶为 $L$ 的单位 $a$ 的整数代表元，即得到所有要求。
+\subsection*{背景与一般形式}
+这里的群指数就是 Carmichael 函数 $\lambda(M)$。对任意固定 $\varepsilon>0$，同一素因子估计给出 $\tau(L)\le K_\varepsilon L^\varepsilon$：对充分大的 $p$ 有 $2\le p^\varepsilon$，剩余有限个素数分别吸收进常数。因此对任意固定 $A>0$，取 $\varepsilon=1/(2A)$，若 $\lambda(n!+1)\le n^A$，则
+$\log(n!+1)=O(n^{1/2}\log n)$，仍与下界矛盾。
+于是 $\lambda(n!+1)>n^A$ 对充分大的 $n$ 成立。这是原命题的严格加强。
+
+\section{跳跳马与高斯整数格}
+\subsection*{题意}
+互素正整数 $a>b$，一奇一偶。甲跳向量为 $(a,b),(-b,a),(-a,-b),(b,-a)$；乙跳向量为 $(b,a),(-a,b),(-b,-a),(a,-b)$。证明存在整点 $P$，即使允许任意次乙跳也不能用不超过 $\sqrt{(a^2+b^2)/2}-100$ 次甲跳到达；又存在距原点不超过 $\sqrt{a^2+b^2}$ 的整点 $Q$，不能用不超过
+\[
+\frac{\sqrt2\,a(a+b)}{\sqrt{a^2+2ab-b^2}}-100
+\]
+次总跳数到达。
+\subsection*{格与范数}
+将整点识别为高斯整数，记 $\alpha=a+bi$、$\beta=b+ai$、$D=a^2+b^2$。对复数 $z=x+iy$ 定义 $\norm{z}_1=|x|+|y|$，欧氏范数为 $|z|$。
+任意跳法的终点为
+\[
+Q=\alpha u+\beta v,\qquad u,v\in\Z[i],
+\]
+甲、乙跳数分别至少为 $\norm{u}_1,\norm{v}_1$，且每种给定系数均可用恰为该范数的跳数实现。
+$\alpha,\beta$ 在 $\Z[i]$ 中互素：公因子整除 $\alpha-i\beta=2a$ 与 $\alpha+i\beta=2bi$，因 $\gcd(a,b)=1$，遂整除 $2$；其范数又整除奇数 $D$，因此是单位。这里用到高斯整数的欧几里得算法（除法后将实部、虚部分别舍入，余数范数严格下降），从而有 Bezout 等式。因此若 $\alpha(u-u')$ 被 $\beta$ 整除，则 $u-u'$ 被 $\beta$ 整除；且每个整点可达。
+\subsection*{构造远离格点的陪集}
+取 $h=\beta(1+i)/2$，将其实、虚部各舍入最近整数得 $u_0$，记 $e=u_0-h$。于是 $\norm{e}_1\le1$，$|e|\le1/\sqrt2$。
+对任意 $w\in\Z[i]$，令 $z=(1+i)/2+w$，其两坐标皆为半奇整数。
+若两坐标绝对值均为 $1/2$，直接计算得
+\[
+\norm{\beta z}_1=\norm{\alpha z}_1=a.
+\]
+若至少一个坐标绝对值不小于 $3/2$，则
+$|z|\ge\sqrt{5/2}$，故
+\[
+\norm{\beta z}_1\ge|\beta z|=\sqrt D\,|z|>a,
+\qquad
+\norm{\alpha z}_1>a.
+\]
+因此对所有 $w$，
+\[
+\norm{h+\beta w}_1\ge a,\quad
+\norm{h+\beta w}_1+
+\norm{(\alpha/\beta)(h+\beta w)}_1\ge2a. \tag{3}
+\]
+\subsection*{第一问}
+取 $P=\alpha u_0$。任意到达 $P$ 的系数 $u,v$ 满足
+$\alpha(u-u_0)=-\beta v$，故 $u=u_0+\beta w$。
+利用 (3) 及三角不等式，
+\[
+\norm{u}_1\ge a-1\ge\sqrt{D/2}-1>\sqrt{D/2}-100.
+\]
+无论允许多少次乙跳，甲跳数都超过题设上限。
+\subsection*{第二问}
+把 $-\alpha u_0/\beta$ 的实、虚部各舍入最近整数，得到 $v_0$。令
+\[
+Q=\alpha u_0+\beta v_0.
+\]
+则 $Q$ 为整点，且 $|Q/\beta|\le1/\sqrt2$、$\norm{Q/\beta}_1\le1$，故 $|Q|\le\sqrt{D/2}\le\sqrt D$。
+任意到达 $Q$ 的系数 $u,v$ 仍满足 $u=u_0+\beta w$。记 $R=\alpha/\beta$，则 $|R|=1$ 且 $v=Q/\beta-Ru$。由 (3) 得
+\[
+\begin{aligned}
+\norm{u}_1+\norm{v}_1
+&\ge \norm{u}_1+\norm{Ru}_1-\norm{Q/\beta}_1\\
+&\ge2a-\norm{e}_1-\norm{Re}_1-1\\
+&\ge2a-3.
+\end{aligned}
+\]
+最后一步使用 $\norm{Re}_1\le\sqrt2|e|\le1$。
+又因
+\[
+2(a^2+2ab-b^2)-(a+b)^2
+=(a-b)(a+3b)>0,
+\]
+所以题设分式严格小于 $2a$，所需总跳数至少 $2a-3$，严格超过题设上限。证毕。
+\subsection*{背景与一般形式}
+原题是两个旋转正方形格的加法表示问题。若 $\alpha,\beta$ 为任意互素非零高斯整数，则所有整点可达，给定终点的全部表示由
+$(u,v)=(u_0+\beta w,v_0-\alpha w)$（$w\in\Z[i]$）给出；最少跳数恰为这些表示的 $\ell^1$ 代价之最小值。本题利用半格点构造同时远离两个格的陪集，并通过舍入取得短距离的实际终点。题中两个 $100$ 均可加强为 $3$；第一问甚至可得到至少 $a-1$ 次甲跳的下界。
+
+\section{梯形中的根轴}
+\subsection*{题意}
+凸四边形 $ABCD$ 满足 $AD\parallel BC$，两对角线交于 $E$。圆 $ABE$ 与圆 $CDE$ 另一交点为 $F$。点 $G$ 在直线 $EF$ 上，$AG\parallel BD$，且 $EF\cdot EG=EA^2$。求 $AD/BC$。
+\ans{$\displaystyle AD/BC=1/2$。此处按直线 $EF$ 理解，若限定为线段或射线 $EF$，则无解。}
+\subsection*{斜坐标证明}
+以 $E$ 为原点，设 $\mathbf u=\overrightarrow{EA}$、$\mathbf v=\overrightarrow{EB}$，并记 $U=|\mathbf u|^2$、$V=|\mathbf v|^2$。
+两向量线性无关。由于 $AD\parallel BC$ 且凸性保证对角线内部相交，存在 $k>0$ 使
+\[
+A=\mathbf u,\quad B=\mathbf v,\quad
+C=-k\mathbf u,\quad D=-\mathbf v/k.
+\]
+事实上若 $D=-l\mathbf v$，由 $-\mathbf u-l\mathbf v\parallel-k\mathbf u-\mathbf v$ 得 $kl=1$。同时 $AD/BC=1/k$。
+设 $X=x\mathbf u+y\mathbf v$。过原点的圆具有方程 $|X|^2=L(X)$，其中 $L$ 为线性泛函。代入各圆的另外两点，得到
+\[
+(ABE): |X|^2=Ux+Vy,\qquad
+(CDE): |X|^2=-kUx-\frac Vk y.
+\]
+两式相减，公共弦 $EF$ 所在直线为
+\[
+(1+k)Ux+(1+1/k)Vy=0,
+\quad\text{即}\quad y=-kUx/V.
+\]
+又 $AG\parallel BD$，故 $G$ 的斜坐标第一分量为 $1$，所以
+$G=\mathbf u-k(U/V)\mathbf v$。记 $H=|G|^2>0$。
+写 $F=\mu G$，因 $F\ne E$，$\mu\ne0$。代入圆 $ABE$ 得
+$\mu^2H=\mu(1-k)U$，从而
+\[
+EF\cdot EG=|\mu|H=|1-k|U.
+\]
+题设等价于 $|1-k|=1$，且 $k>0$，故 $k=2$，所求比值为 $1/2$。
+\subsection*{存在性与方向}
+取 $E=(0,0)$，$A=(1,0)$，$B=(0,1)$，$C=(-2,0)$，$D=(0,-1/2)$。该四边形凸且满足平行条件。计算得 $G=(1,-2)$、$F=(-1/5,2/5)$，两圆方程和乘积条件均成立。因此所求值确实可取。
+当 $k=2$ 时 $\mu=-U/H<0$，故 $E$ 位于 $F,G$ 之间；这也说明题图中的“在 $EF$ 上”若被理解为线段或射线，便无解。
+\subsection*{背景与一般形式}
+根轴是两个不同圆等幂点的集合，圆方程相减即为根轴。上述计算还证明，对于任何满足构型且两圆非相切的凸梯形，
+\[
+\frac{EF\cdot EG}{EA^2}
+=\left|1-\frac{BC}{AD}\right|.
+\]
+若将右侧乘积条件改为 $EF\cdot EG=c\,EA^2$，$c>0$，则可能的比值为 $1/(1+c)$，以及当 $0<c<1$ 时的 $1/(1-c)$。任取对应的 $k=1\pm c>0$，用垂直的 $\mathbf u,\mathbf v$ 构造即可验证存在性。
+
+\section{受均值约束的格点集合}
+\subsection*{题意}
+给定整数 $d,M\ge2$。有限非空集合 $S$ 由 $d$ 元自然数组组成，第 $i$ 个分量的平均值为 $a_i$。若 $a_i\le M$（$i<d$），$a_d\le3M+1$，求 $|S|$ 的最大值。此题按自然数含 $0$ 的约定讨论。
+\ans{$\displaystyle \max |S|=3\binom{(d+1)M+d}{d}$。}
+\subsection*{构造与精确均值}
+令 $K=(d+1)M$，定义权重
+\[
+W(x)=3(x_1+\cdots+x_{d-1})+x_d,
+\quad T=\{x\in\N^d: W(x)\le3K+2\}.
+\]
+唯一地写 $x_d=3y_d+r$，$0\le r\le2$，并令 $y_i=x_i$（$i<d$）。于是 $T$ 恰对应于
+\[
+y_1+\cdots+y_d\le K,\qquad y_i\in\N,\quad r=0,1,2.
+\]
+添加松弛变量 $y_{d+1}=K-\sum_{i=1}^d y_i$，由隔板法知 $y$ 的选择数为 $\binom{K+d}{d}$。
+所有 $d+1$ 元非负整数和为 $K$ 的数组关于坐标置换对称，故每个分量平均值为 $K/(d+1)=M$。而 $r$ 平均值为 $1$，所以在 $T$ 中前 $d-1$ 个分量平均值恰为 $M$，最后一分量恰为 $3M+1$。因此 $T$ 可行，且 $|T|=3\binom{K+d}{d}$。
+\subsection*{最优性与唯一性}
+对任一可行集合 $S$，其平均权重满足
+\[
+\frac1{|S|}\sum_{x\in S}W(x)
+=3\sum_{i<d}a_i+a_d\le3dM+1=:B.
+\]
+另一方面，$T$ 的平均权重恰为 $B$。注意 $3K+2>B$；所有 $T$ 外的权重至少为 $3K+3$，严格大于 $T$ 内所有权重。
+若 $|S|\ge|T|$，设 $A=T\setminus S$、$J=S\setminus T$，则 $|J|\ge|A|$。若 $S\ne T$，则 $J\ne\varnothing$，并有
+\[
+\begin{aligned}
+\sum_{x\in S}(W(x)-B)
+&=\sum_{x\in J}(W(x)-B)-\sum_{x\in A}(W(x)-B)\\
+&\ge |J|(3K+3-B)-|A|(3K+2-B)>0.
+\end{aligned}
+\]
+这与平均权重条件矛盾。因此 $|S|\le|T|$，且等号仅在 $S=T$ 时成立。
+\subsection*{背景与一般形式}
+这是离散重排原理与格点计数的结合。对于整数 $q\ge1$，将最后一分量平均值上界改为 $qM+(q-1)/2$，前 $d-1$ 个仍为 $M$，用权重 $q\sum_{i<d}x_i+x_d$，以及 $x_d=qy_d+r$、$0\le r<q$，同一论证给出唯一最大集合
+\[
+q\sum_{i<d}x_i+x_d\le q(d+1)M+q-1,
+\qquad
+|S|_{\max}=q\binom{(d+1)M+d}{d}.
+\]
+该推广允许最后一个均值上界为半整数。若采用自然数从 $1$ 开始的定义，则必须先平移坐标并相应修改均值约束，不能直接套用原题的数值公式。
+
+\section{定长子集和的最优上界}
+\subsection*{题意}
+对 $1\le m<n$，定义 $F(m,n)$ 为最小常数 $C$，使任意满足 $\sum_i x_i=0$、$\sum_i x_i^2=1$ 的 $n$ 个实数，都存在恰含 $m$ 项的子集，其和属于 $[0,C]$。求 $F(20,26)$，并证明充分大时 $\min_{1\le m<n}F(m,n)<0.85$。
+\ans{$\displaystyle F(20,26)=20/\sqrt{650}$，且对所有 $n\ge7$，$\min_m F(m,n)<0.85$。}
+\subsection*{一般估计}
+对 $n\ge4$，定义
+\[
+B=\frac{\max(m,n-m)}{\sqrt{n(n-1)}},
+\qquad H=\sqrt{\frac{n}{2(n-2)}}.
+\]
+我们证明
+\[
+B\le F(m,n)\le\max(B,H). \tag{4}
+\]
+首先取一个数为 $-\sqrt{(n-1)/n}$，其余 $n-1$ 个均为 $1/\sqrt{n(n-1)}$。这组数满足归一化条件。若选出的 $m$ 项含负数，其和严格为负；否则其和为 $m/\sqrt{n(n-1)}$。取所有数的相反数，类似得到下界 $(n-m)/\sqrt{n(n-1)}$。所以 $F\ge B$。
+\subsection*{交换图引理}
+将一组实数按非降序排列为 $x_1\le\cdots\le x_n$。在连续下标区间内选定 $k$ 个下标，允许每次把一个下标移到相邻且未被选中的位置。所有这类 $k$ 元子集构成连通图：从任意子集出发，反复将一个可以左移的下标左移，最终到达最左边的 $k$ 个下标。反向路径也成立。每一步子集和的变化绝对值不超过区间内最大的相邻间隙。
+因此，若这个图的顶点和存在负值和正值，并且所有边的变化至多为 $C$，则沿连接两者的路径，第一次达到非负时其值属于 $[0,C]$。
+同理，若顶点和的平均值落在 $[0,C]$，必有某个顶点和落在 $[0,C]$：如果已有合适顶点则结束；否则由平均值知同时有负值和大于 $C$ 的值，应用连通性即可。固定某些选中下标后，该结论仍适用于剩余连续区间的定长选择。
+\subsection*{间隙估计与上界}
+记 $\delta_j=x_{j+1}-x_j$。若前 $j$ 项均值为 $u$，后 $n-j$ 项均值为 $v$，则 $v-u\ge\delta_j$，且 $ju+(n-j)v=0$。Cauchy 不等式给出
+\[
+1\ge ju^2+(n-j)v^2
+=\frac{j(n-j)}n(v-u)^2
+\ge\frac{j(n-j)}n\delta_j^2.
+\]
+故对 $2\le j\le n-2$，$\delta_j\le H$。
+设 $C=\max(B,H)$。因为 $C\ge H>1/\sqrt2$，两个端点间隙不可能同时超过 $C$：否则 $x_n-x_1>2C$，进而
+$1\ge x_1^2+x_n^2\ge(x_n-x_1)^2/2>2C^2>1$。
+若没有间隙超过 $C$，所有 $m$ 元子集和平均值为 $m\sum_i x_i/n=0$，应用交换图引理即可。
+若只有 $\delta_1>C$，限制不选 $x_1$。所有这种子集的平均和为
+\[
+-\frac{mx_1}{n-1}\in[0,B].
+\]
+确实 $x_1<0$，且由 Cauchy 不等式，
+$1\ge x_1^2+x_1^2/(n-1)$，所以 $|x_1|\le\sqrt{(n-1)/n}$。剩余区间的间隙均不超过 $C$，交换图引理适用。
+若只有 $\delta_{n-1}>C$，限制必选 $x_n$，其余从前 $n-1$ 项选 $m-1$ 项。这些子集的平均和为
+\[
+x_n-\frac{(m-1)x_n}{n-1}
+=\frac{(n-m)x_n}{n-1}\in[0,B].
+\]
+同样 $x_n\le\sqrt{(n-1)/n}$，剩余间隙均不超过 $C$，故得到所需子集。至此 (4) 得证。
+\subsection*{两问结论}
+对于 $m=20,n=26$，
+\[
+B^2=\frac{400}{650}=\frac8{13}>\frac{13}{24}=H^2.
+\]
+因此上下界相等，$F(20,26)=20/\sqrt{650}$。
+对于 $n\ge7$，取 $m=\lfloor n/2\rfloor$，则
+\[
+B\le\frac{n+1}{2\sqrt{n(n-1)}}
+\le\frac{n+1}{2(n-1)}\le\frac23,
+\qquad
+H^2=\frac{n}{2(n-2)}\le\frac7{10}<0.85^2.
+\]
+应用 (4) 即有 $\min_m F(m,n)<0.85$，并且已经证明 $n\ge7$ 足够。
+\subsection*{背景与一般形式}
+定长子集的交换图可视作 Johnson 图的一个连通子图；利用排序后相邻交换，避免直接估计任意两个数之差。式 (4) 在 $B\ge H$ 时给出精确公式，在其余参数区域只给出上下界，不主张精确值。
+此外补集取和为相反数，配合将所有输入取反，可知 $F(m,n)=F(n-m,n)$。由 (4) 取 $m=\lfloor n/2\rfloor$ 还得
+\[
+\limsup_{n\to\infty}\min_{1\le m<n}F(m,n)
+\le 1/\sqrt2.
+\]
+这严格加强了原题的渐近上界，但不是关于极限精确值的断言。
+
+\vfill
+\begin{center}\small\color{accent} 三千弱水杂谈 \quad $\vert$ \quad 完\end{center}
+\end{document}
